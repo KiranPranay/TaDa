@@ -73,6 +73,9 @@ android {
             minifyEnabled true
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 flutter {
