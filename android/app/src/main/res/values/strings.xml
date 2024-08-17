@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--    <string name="appwidget_text">Xweber - Testing</string>-->
+    <string name="progress_circular">52%</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">Sample Widget Description</string>
 </resources>
