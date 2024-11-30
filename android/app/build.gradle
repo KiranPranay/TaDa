@@ -11,9 +11,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.tada.xweber"
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    namespace = "com.tada.xweber"
+    compileSdkVersion = 34
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -36,11 +36,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tada.xweber"
-        minSdkVersion 23
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId = "com.tada.xweber"
+        minSdk = 23
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     signingConfigs {
