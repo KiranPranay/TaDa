@@ -112,5 +112,12 @@ class DeDe {
         'friday': 'Freitag',
         'saturday': 'Samstag',
         'sunday': 'Sonntag',
+        'todoPined': 'Anheften',
+        'highPriority': 'Hoch',
+        'mediumPriority': 'Mittel',
+        'lowPriority': 'Niedrig',
+        'noPriority': 'Keine Priorität',
+        'tags': 'Tags',
+        'ready': 'Fertig',
       };
 }

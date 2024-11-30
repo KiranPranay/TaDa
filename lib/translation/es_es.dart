@@ -117,5 +117,12 @@ class EsEs {
         'friday': 'Viernes',
         'saturday': 'Sábado',
         'sunday': 'Domingo',
+        'todoPined': 'Fijar',
+        'highPriority': 'Alta',
+        'mediumPriority': 'Media',
+        'lowPriority': 'Baja',
+        'noPriority': 'Sin prioridad',
+        'tags': 'Etiquetas',
+        'ready': 'Hecho',
       };
 }

@@ -114,5 +114,12 @@ class FaIr {
         'friday': 'جمعه',
         'saturday': 'شنبه',
         'sunday': 'یک‌شنبه',
+        'todoPined': 'پین کردن',
+        'highPriority': 'زیاد',
+        'mediumPriority': 'متوسط',
+        'lowPriority': 'کم',
+        'noPriority': 'بدون اولویت',
+        'tags': 'برچسب‌ها',
+        'ready': 'انجام شد',
       };
 }

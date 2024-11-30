@@ -3,8 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/notification.dart';
+import 'package:todark/app/data/db.dart';
+import 'package:todark/app/utils/notification.dart';
 import 'package:todark/main.dart';
 
 class TodoController extends GetxController {
@@ -21,15 +21,6 @@ class TodoController extends GetxController {
 
   final duration = const Duration(milliseconds: 500);
   var now = DateTime.now();
-
-  TextEditingController titleCategoryEdit = TextEditingController();
-  TextEditingController descCategoryEdit = TextEditingController();
-
-  TextEditingController textTodoConroller = TextEditingController();
-  TextEditingController transferTodoConroller = TextEditingController();
-  TextEditingController titleTodoEdit = TextEditingController();
-  TextEditingController descTodoEdit = TextEditingController();
-  TextEditingController timeTodoEdit = TextEditingController();
 
   @override
   void onInit() {
@@ -166,8 +157,8 @@ class TodoController extends GetxController {
   }
 
   // Todos
-  Future<void> addTodo(
-      Tasks task, String title, String desc, String time) async {
+  Future<void> addTodo(Tasks task, String title, String desc, String time,
+      bool pined, Priority priority, List<String> tags) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = timeformat == '12'
@@ -186,6 +177,10 @@ class TodoController extends GetxController {
       name: title,
       description: desc,
       todoCompletedTime: date,
+      fix: pined,
+      createdTime: DateTime.now(),
+      priority: priority,
+      tags: tags,
     )..task.value = task;
 
     if (getTodos.isEmpty) {
@@ -213,20 +208,8 @@ class TodoController extends GetxController {
     todos.refresh();
   }
 
-  Future<void> updateTodoFix(Todos todo) async {
-    isar.writeTxnSync(() {
-      todo.fix = todo.fix == true ? false : true;
-      isar.todos.putSync(todo);
-    });
-
-    var newTodo = todo;
-    int oldIdx = todos.indexOf(todo);
-    todos[oldIdx] = newTodo;
-    todos.refresh();
-  }
-
-  Future<void> updateTodo(
-      Todos todo, Tasks task, String title, String desc, String time) async {
+  Future<void> updateTodo(Todos todo, Tasks task, String title, String desc,
+      String time, bool pined, Priority priority, List<String> tags) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = timeformat == '12'
@@ -237,6 +220,9 @@ class TodoController extends GetxController {
       todo.name = title;
       todo.description = desc;
       todo.todoCompletedTime = date;
+      todo.fix = pined;
+      todo.priority = priority;
+      todo.tags = tags;
       todo.task.value = task;
       isar.todos.putSync(todo);
       todo.task.saveSync();

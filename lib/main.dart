@@ -5,8 +5,8 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:todark/app/controller/isar_contoller.dart';
-import 'package:todark/app/modules/home.dart';
-import 'package:todark/app/modules/onboarding.dart';
+import 'package:todark/app/ui/home.dart';
+import 'package:todark/app/ui/onboarding.dart';
 import 'package:todark/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,8 +15,8 @@ import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/theme/theme_controller.dart';
-import 'package:todark/utils/device_info.dart';
-import 'app/data/schema.dart';
+import 'package:todark/app/utils/device_info.dart';
+import 'app/data/db.dart';
 import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -48,6 +48,7 @@ final List appLanguages = [
   {'name': 'Türkçe', 'locale': const Locale('tr', 'TR')},
   {'name': '中文(简体)', 'locale': const Locale('zh', 'CN')},
   {'name': '中文(繁體)', 'locale': const Locale('zh', 'TW')},
+  {'name': 'Português', 'locale': const Locale('pt', 'PT')},
 ];
 
 void main() async {
@@ -71,9 +72,10 @@ void main() async {
   const LinuxInitializationSettings initializationSettingsLinux =
       LinuxInitializationSettings(defaultActionName: 'ToDark');
   const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      linux: initializationSettingsLinux,
-      iOS: initializationSettingsIos);
+    android: initializationSettingsAndroid,
+    linux: initializationSettingsLinux,
+    iOS: initializationSettingsIos,
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await IsarController().openDB();
   await initSettings();

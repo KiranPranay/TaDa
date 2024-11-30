@@ -112,5 +112,12 @@ class ItIt {
         'friday': 'Venerdì',
         'saturday': 'Sabato',
         'sunday': 'Domenica',
+        'todoPined': 'Fissa',
+        'highPriority': 'Alta',
+        'mediumPriority': 'Media',
+        'lowPriority': 'Bassa',
+        'noPriority': 'Nessuna priorità',
+        'tags': 'Tag',
+        'ready': 'Fatto',
       };
 }
