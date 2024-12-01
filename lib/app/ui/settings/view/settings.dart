@@ -461,16 +461,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                 SettingCard(
                                   elevation: 4,
                                   icon: const Icon(IconsaxPlusLinear.card),
-                                  text: 'DonationAlerts',
+                                  text: 'Ko-Fi',
                                   onPressed: () => urlLauncher(
-                                      'https://www.donationalerts.com/r/darkmoonight'),
+                                      'https://ko-fi.com/pranaykiran'),
                                 ),
                                 SettingCard(
                                   elevation: 4,
                                   icon: const Icon(IconsaxPlusLinear.wallet),
-                                  text: 'ЮMoney',
+                                  text: 'PayPal',
                                   onPressed: () => urlLauncher(
-                                      'https://yoomoney.ru/to/4100117672775961'),
+                                      'https://www.paypal.com/paypalme/pranaykiran'),
                                 ),
                                 const Gap(10),
                               ],
@@ -511,19 +511,19 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   ),
                                 ),
+                                // SettingCard(
+                                //   elevation: 4,
+                                //   icon: const Icon(LineAwesomeIcons.discord),
+                                //   text: 'Discord',
+                                //   onPressed: () => urlLauncher(
+                                //       'https://discord.gg/JMMa9aHh8f'),
+                                // ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(LineAwesomeIcons.discord),
-                                  text: 'Discord',
+                                  icon: const Icon(LineAwesomeIcons.instagram),
+                                  text: 'Instagran',
                                   onPressed: () => urlLauncher(
-                                      'https://discord.gg/JMMa9aHh8f'),
-                                ),
-                                SettingCard(
-                                  elevation: 4,
-                                  icon: const Icon(LineAwesomeIcons.telegram),
-                                  text: 'Telegram',
-                                  onPressed: () =>
-                                      urlLauncher('https://t.me/darkmoonightX'),
+                                      'https://instagram.com/pranay_kiran'),
                                 ),
                                 const Gap(10),
                               ],
@@ -550,7 +550,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         image: DecorationImage(
                             image: AssetImage('assets/icons/icon.png'))),
                   ),
-                  applicationName: 'ToDark',
+                  applicationName: 'TaDa',
                   applicationVersion: appVersion,
                 ),
                 transition: Transition.downToUp,
@@ -566,7 +566,7 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: const Icon(LineAwesomeIcons.github),
               text: '${'project'.tr} GitHub',
               onPressed: () =>
-                  urlLauncher('https://github.com/DarkMooNight/ToDark'),
+                  urlLauncher('https://github.com/KiranPranay/TaDa'),
             ),
           ],
         ),
