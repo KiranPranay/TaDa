@@ -9,6 +9,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.RemoteViews
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ToDo : AppWidgetProvider() {
 
@@ -32,12 +35,15 @@ class ToDo : AppWidgetProvider() {
         val completedText = "$completed/$total Completed"
         val progress = if (total == 0) "0%" else "${((completed.toDouble() / total.toDouble()) * 100).toInt()}%"
 
+        // Get the current date
+        val currentDate = getCurrentDate()
+
         // Update the widget with the retrieved data
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val thisWidget = ComponentName(context, ToDo::class.java)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, "Todos Completed", completedText, progress)
+            updateAppWidget(context, appWidgetManager, appWidgetId, "Todos Completed", completedText, progress, currentDate)
         }
     }
 
@@ -47,13 +53,15 @@ class ToDo : AppWidgetProvider() {
             val title = intent.getStringExtra("title") ?: "Todos Completed"
             val completed = intent.getStringExtra("completed") ?: "0/0 Completed"
             val progress = intent.getStringExtra("progress") ?: "0%"
+            val date = getCurrentDate()  // Update the date dynamically
+
             Log.d("ToDo", "onReceive: Update called with title: $title")
 
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val thisWidget = ComponentName(context, ToDo::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
             for (appWidgetId in appWidgetIds) {
-                updateAppWidget(context, appWidgetManager, appWidgetId, title, completed, progress)
+                updateAppWidget(context, appWidgetManager, appWidgetId, title, completed, progress, date)
             }
         }
     }
@@ -65,15 +73,18 @@ class ToDo : AppWidgetProvider() {
             appWidgetId: Int,
             title: String = "Todos Completed",
             completed: String = "0/0 Completed",
-            progress: String = "0%"
+            progress: String = "0%",
+            date: String = "Loading..."
         ) {
             Log.d("ToDo", "updateAppWidget called with title: $title")
 
             val views = RemoteViews(context.packageName, R.layout.to_do)
 
+            // Set dynamic values to the widget views
             views.setTextViewText(R.id.todos_completed, title)
             views.setTextViewText(R.id.completed_count, completed)
             views.setTextViewText(R.id.progress_percentage, progress)
+            views.setTextViewText(R.id.date, date)
 
             val intent = Intent(context, MainActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(
@@ -82,6 +93,12 @@ class ToDo : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.progress_circular, pendingIntent)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
+        }
+
+        // Function to get the current date formatted as "Day, Month Date"
+        private fun getCurrentDate(): String {
+            val dateFormat = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault())
+            return dateFormat.format(Date())
         }
     }
 }
