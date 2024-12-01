@@ -62,7 +62,7 @@ void main() async {
   if (Platform.isAndroid || Platform.isIOS) {
     timeZoneName = await FlutterTimezone.getLocalTimezone();
   } else {
-    timeZoneName = '\${DateTimeZone.local}';
+    timeZoneName = '${DateTimeZone.local}';
   }
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
@@ -121,7 +121,7 @@ Future<void> setOptimalDisplayMode() async {
 Future<void> initSettings() async {
   settings = isar.settings.where().findFirstSync() ?? Settings();
   if (settings.language == null) {
-    settings.language = '\${Get.deviceLocale}';
+    settings.language = '${Get.deviceLocale}';
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
