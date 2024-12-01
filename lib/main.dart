@@ -16,6 +16,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'package:todark/app/utils/device_info.dart';
+import 'app/controller/todo_controller.dart';
 import 'app/data/db.dart';
 import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -79,7 +80,21 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await IsarController().openDB();
   await initSettings();
+
+  // Update SharedPreferences with the latest todo data and trigger widget update
+  await updateInitialWidgetData();
+
   runApp(const MyApp());
+}
+
+Future<void> updateInitialWidgetData() async {
+  final todoController = Get.put(TodoController());
+
+  // Update shared preferences
+  await todoController.updateWidgetData();
+
+  // Trigger widget update
+  await todoController.updateWidget();
 }
 
 Future<void> setOptimalDisplayMode() async {
