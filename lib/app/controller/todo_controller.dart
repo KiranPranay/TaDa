@@ -37,8 +37,8 @@ class TodoController extends GetxController {
     int total = createdAllTodos();
 
     // Save the data in Flutter SharedPreferences
-    await prefs.setInt('completedTodos', completed);
-    await prefs.setInt('totalTodos', total);
+    await prefs.setInt('flutter.completedTodos', completed);
+    await prefs.setInt('flutter.totalTodos', total);
 
     // Update the Android widget with the same data
     await WidgetUpdater.updateWidget(

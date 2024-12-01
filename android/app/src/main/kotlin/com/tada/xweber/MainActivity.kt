@@ -5,11 +5,15 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterActivity(), LifecycleObserver {
 
     private val CHANNEL = "com.tada.xweber/widget_update"
 
@@ -21,14 +25,25 @@ class MainActivity : FlutterActivity() {
                 val completed = call.argument<String>("completed") ?: "0/0 Completed"
                 val progress = call.argument<String>("progress") ?: "0%"
 
-                // Update the widget by sending broadcast intent
-                Log.d("MainActivity", "Sending updateWidget broadcast with title: $title")
                 updateWidget(title, completed, progress)
                 result.success(null)
             } else {
                 result.notImplemented()
             }
         }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onAppBackgrounded() {
+        Log.d("MainActivity", "App moved to background")
+        // Trigger widget update to persist data when app is in background
+        val prefs = getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+        val completed = prefs.getInt("flutter.completedTodos", 0)
+        val total = prefs.getInt("flutter.totalTodos", 0)
+        val completedText = "$completed/$total Completed"
+        val progress = if (total == 0) "0%" else "${((completed.toDouble() / total.toDouble()) * 100).toInt()}%"
+        updateWidget("Todos Completed", completedText, progress)
     }
 
     private fun updateWidget(title: String, completed: String, progress: String) {
@@ -41,18 +56,5 @@ class MainActivity : FlutterActivity() {
         }
 
         context.sendBroadcast(intent)
-    }
-
-    // Send dummy data onStart, actual data will replace it
-    override fun onStart() {
-        super.onStart()
-        Log.d("MainActivity", "onStart called, updating widget with initial data")
-
-        // Send a basic initial update (if Flutter hasn't yet provided data)
-        updateWidget(
-            "Todos Completed",
-            "Loading initial data...",
-            "0%"
-        )
     }
 }

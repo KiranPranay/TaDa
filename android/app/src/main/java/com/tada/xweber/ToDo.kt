@@ -96,7 +96,7 @@ class ToDo : AppWidgetProvider() {
         }
 
         // Function to get the current date formatted as "Day, Month Date"
-        private fun getCurrentDate(): String {
+        fun getCurrentDate(): String {
             val dateFormat = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault())
             return dateFormat.format(Date())
         }
