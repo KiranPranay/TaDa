@@ -42,4 +42,17 @@ class MainActivity : FlutterActivity() {
 
         context.sendBroadcast(intent)
     }
+
+    // Send dummy data onStart, actual data will replace it
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivity", "onStart called, updating widget with initial data")
+
+        // Send a basic initial update (if Flutter hasn't yet provided data)
+        updateWidget(
+            "Todos Completed",
+            "Loading initial data...",
+            "0%"
+        )
+    }
 }

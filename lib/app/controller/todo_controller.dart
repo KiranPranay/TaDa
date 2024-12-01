@@ -36,8 +36,16 @@ class TodoController extends GetxController {
     int completed = completedAllTodos();
     int total = createdAllTodos();
 
+    // Save the data in Flutter SharedPreferences
     await prefs.setInt('completedTodos', completed);
     await prefs.setInt('totalTodos', total);
+
+    // Update the Android widget with the same data
+    await WidgetUpdater.updateWidget(
+      "Todos Completed",
+      "$completed/$total Completed",
+      total == 0 ? "0%" : "${((completed / total) * 100).toStringAsFixed(0)}%",
+    );
   }
 
   Future<void> updateWidget() async {

@@ -16,6 +16,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'package:todark/app/utils/device_info.dart';
+import 'package:todark/app/controller/todo_controller.dart'; // Import TodoController
+import 'package:todark/app/utils/widget_updater.dart'; // Import WidgetUpdater
 import 'app/data/db.dart';
 import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -79,6 +81,10 @@ void main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await IsarController().openDB();
   await initSettings();
+
+  // Ensure widget is updated after all settings and database are initialized
+  await updateHomeScreenWidget();
+
   runApp(const MyApp());
 }
 
@@ -112,6 +118,22 @@ Future<void> initSettings() async {
     settings.isImage = true;
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
+}
+
+Future<void> updateHomeScreenWidget() async {
+  // This function updates the home screen widget with initial data.
+  final TodoController todoController = Get.put(TodoController());
+
+  int completed = todoController.completedAllTodos();
+  int total = todoController.createdAllTodos();
+
+  String title = "Todos Completed";
+  String completedText = "$completed/$total Completed";
+  String progress =
+      total == 0 ? "0%" : "${((completed / total) * 100).toStringAsFixed(0)}%";
+
+  // Update the widget with the initial data
+  await WidgetUpdater.updateWidget(title, completedText, progress);
 }
 
 class MyApp extends StatefulWidget {

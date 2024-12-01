@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.RemoteViews
 
@@ -15,6 +16,28 @@ class ToDo : AppWidgetProvider() {
         Log.d("ToDo", "onUpdate called")
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
+        }
+    }
+
+    override fun onEnabled(context: Context) {
+        // Called when the first widget is created
+        Log.d("ToDo", "onEnabled called, requesting initial widget update")
+
+        // Trigger an update using stored data in SharedPreferences
+        val prefs: SharedPreferences = context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+
+        // Retrieve stored data (using the default values in case nothing is stored yet)
+        val completed = prefs.getInt("flutter.completedTodos", 0)
+        val total = prefs.getInt("flutter.totalTodos", 0)
+        val completedText = "$completed/$total Completed"
+        val progress = if (total == 0) "0%" else "${((completed.toDouble() / total.toDouble()) * 100).toInt()}%"
+
+        // Update the widget with the retrieved data
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val thisWidget = ComponentName(context, ToDo::class.java)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
+        for (appWidgetId in appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId, "Todos Completed", completedText, progress)
         }
     }
 
