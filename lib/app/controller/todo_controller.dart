@@ -3,8 +3,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todark/app/data/db.dart';
 import 'package:todark/app/utils/notification.dart';
+import 'package:todark/app/utils/widget_updater.dart';
 import 'package:todark/main.dart';
 
 class TodoController extends GetxController {
@@ -29,10 +31,32 @@ class TodoController extends GetxController {
     todos.assignAll(isar.todos.where().findAllSync());
   }
 
+  Future<void> updateWidgetData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int completed = completedAllTodos();
+    int total = createdAllTodos();
+
+    await prefs.setInt('completedTodos', completed);
+    await prefs.setInt('totalTodos', total);
+  }
+
+  Future<void> updateWidget() async {
+    int completed = completedAllTodos();
+    int total = createdAllTodos();
+
+    String title = "Todos Completed";
+    String completedText = "$completed/$total Completed";
+    String progress = total == 0
+        ? "0%"
+        : "${((completed / total) * 100).toStringAsFixed(0)}%";
+
+    await WidgetUpdater.updateWidget(title, completedText, progress);
+  }
+
   // Tasks
   Future<void> addTask(String title, String desc, Color myColor) async {
-    List<Tasks> searchTask;
-    searchTask = isar.tasks.filter().titleEqualTo(title).findAllSync();
+    List<Tasks> searchTask =
+        isar.tasks.filter().titleEqualTo(title).findAllSync();
 
     final taskCreate = Tasks(
       title: title,
@@ -44,6 +68,7 @@ class TodoController extends GetxController {
       tasks.add(taskCreate);
       isar.writeTxnSync(() => isar.tasks.putSync(taskCreate));
       EasyLoading.showSuccess('createCategory'.tr, duration: duration);
+      await updateWidget();
     } else {
       EasyLoading.showError('duplicateCategory'.tr, duration: duration);
     }
@@ -65,36 +90,35 @@ class TodoController extends GetxController {
     todos.refresh();
 
     EasyLoading.showSuccess('editCategory'.tr, duration: duration);
+    await updateWidget();
   }
 
   Future<void> deleteTask(List<Tasks> taskList) async {
     List<Tasks> taskListCopy = List.from(taskList);
 
     for (var task in taskListCopy) {
-      // Delete Notification
-      List<Todos> getTodo;
-      getTodo =
+      List<Todos> getTodo =
           isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
       for (var todo in getTodo) {
-        if (todo.todoCompletedTime != null) {
-          if (todo.todoCompletedTime!.isAfter(now)) {
-            await flutterLocalNotificationsPlugin.cancel(todo.id);
-          }
+        if (todo.todoCompletedTime != null &&
+            todo.todoCompletedTime!.isAfter(now)) {
+          await flutterLocalNotificationsPlugin.cancel(todo.id);
         }
       }
-      // Delete Todos
+
       todos.removeWhere((todo) => todo.task.value?.id == task.id);
       isar.writeTxnSync(() => isar.todos
           .filter()
           .task((q) => q.idEqualTo(task.id))
           .deleteAllSync());
 
-      // Delete Task
       tasks.remove(task);
       isar.writeTxnSync(() => isar.tasks.deleteSync(task.id));
       EasyLoading.showSuccess('categoryDelete'.tr, duration: duration);
     }
+
+    await updateWidget();
   }
 
   Future<void> archiveTask(List<Tasks> taskList) async {
@@ -102,17 +126,16 @@ class TodoController extends GetxController {
 
     for (var task in taskListCopy) {
       // Delete Notification
-      List<Todos> getTodo;
-      getTodo =
+      List<Todos> getTodo =
           isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
       for (var todo in getTodo) {
-        if (todo.todoCompletedTime != null) {
-          if (todo.todoCompletedTime!.isAfter(now)) {
-            await flutterLocalNotificationsPlugin.cancel(todo.id);
-          }
+        if (todo.todoCompletedTime != null &&
+            todo.todoCompletedTime!.isAfter(now)) {
+          await flutterLocalNotificationsPlugin.cancel(todo.id);
         }
       }
+
       // Archive Task
       isar.writeTxnSync(() {
         task.archive = true;
@@ -122,6 +145,8 @@ class TodoController extends GetxController {
       todos.refresh();
       EasyLoading.showSuccess('categoryArchive'.tr, duration: duration);
     }
+
+    await updateWidget();
   }
 
   Future<void> noArchiveTask(List<Tasks> taskList) async {
@@ -129,22 +154,21 @@ class TodoController extends GetxController {
 
     for (var task in taskListCopy) {
       // Create Notification
-      List<Todos> getTodo;
-      getTodo =
+      List<Todos> getTodo =
           isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
       for (var todo in getTodo) {
-        if (todo.todoCompletedTime != null) {
-          if (todo.todoCompletedTime!.isAfter(now)) {
-            NotificationShow().showNotification(
-              todo.id,
-              todo.name,
-              todo.description,
-              todo.todoCompletedTime,
-            );
-          }
+        if (todo.todoCompletedTime != null &&
+            todo.todoCompletedTime!.isAfter(now)) {
+          NotificationShow().showNotification(
+            todo.id,
+            todo.name,
+            todo.description,
+            todo.todoCompletedTime,
+          );
         }
       }
+
       // No archive Task
       isar.writeTxnSync(() {
         task.archive = false;
@@ -154,6 +178,8 @@ class TodoController extends GetxController {
       todos.refresh();
       EasyLoading.showSuccess('noCategoryArchive'.tr, duration: duration);
     }
+
+    await updateWidget();
   }
 
   // Todos
@@ -198,14 +224,10 @@ class TodoController extends GetxController {
         );
       }
       EasyLoading.showSuccess('todoCreate'.tr, duration: duration);
+      await updateWidget();
     } else {
       EasyLoading.showError('duplicateTodo'.tr, duration: duration);
     }
-  }
-
-  Future<void> updateTodoCheck(Todos todo) async {
-    isar.writeTxnSync(() => isar.todos.putSync(todo));
-    todos.refresh();
   }
 
   Future<void> updateTodo(Todos todo, Tasks task, String title, String desc,
@@ -245,6 +267,30 @@ class TodoController extends GetxController {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
     }
     EasyLoading.showSuccess('updateTodo'.tr, duration: duration);
+    await updateWidget();
+  }
+
+  Future<void> deleteTodo(List<Todos> todoList) async {
+    List<Todos> todoListCopy = List.from(todoList);
+
+    for (var todo in todoListCopy) {
+      if (todo.todoCompletedTime != null &&
+          todo.todoCompletedTime!.isAfter(now)) {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
+      }
+
+      todos.remove(todo);
+      isar.writeTxnSync(() => isar.todos.deleteSync(todo.id));
+      EasyLoading.showSuccess('todoDelete'.tr, duration: duration);
+    }
+
+    await updateWidget();
+  }
+
+  Future<void> updateTodoCheck(Todos todo) async {
+    isar.writeTxnSync(() => isar.todos.putSync(todo));
+    todos.refresh();
+    await updateWidget();
   }
 
   Future<void> transferTodos(List<Todos> todoList, Tasks task) async {
@@ -266,63 +312,17 @@ class TodoController extends GetxController {
     tasks.refresh();
 
     EasyLoading.showSuccess('updateTodo'.tr, duration: duration);
+    await updateWidget();
   }
 
-  Future<void> deleteTodo(List<Todos> todoList) async {
-    List<Todos> todoListCopy = List.from(todoList);
-
-    for (var todo in todoListCopy) {
-      if (todo.todoCompletedTime != null) {
-        if (todo.todoCompletedTime!.isAfter(now)) {
-          await flutterLocalNotificationsPlugin.cancel(todo.id);
-        }
-      }
-      todos.remove(todo);
-      isar.writeTxnSync(() => isar.todos.deleteSync(todo.id));
-      EasyLoading.showSuccess('todoDelete'.tr, duration: duration);
-    }
-  }
-
-  int createdAllTodos() {
-    return todos.where((todo) => todo.task.value?.archive == false).length;
-  }
-
-  int completedAllTodos() {
-    return todos
-        .where((todo) => todo.task.value?.archive == false && todo.done == true)
-        .length;
-  }
-
-  int createdAllTodosTask(Tasks task) {
-    return todos.where((todo) => todo.task.value?.id == task.id).length;
-  }
-
-  int completedAllTodosTask(Tasks task) {
-    return todos
-        .where((todo) => todo.task.value?.id == task.id && todo.done == true)
-        .length;
-  }
-
-  int countTotalTodosCalendar(DateTime date) {
-    return todos
-        .where((todo) =>
-            todo.done == false &&
-            todo.todoCompletedTime != null &&
-            todo.task.value?.archive == false &&
-            DateTime(date.year, date.month, date.day, 0, -1)
-                .isBefore(todo.todoCompletedTime!) &&
-            DateTime(date.year, date.month, date.day, 23, 60)
-                .isAfter(todo.todoCompletedTime!))
-        .length;
-  }
-
-  void doMultiSelectionTask(Tasks tasks) {
+  // Selection Methods
+  void doMultiSelectionTask(Tasks task) {
     if (isMultiSelectionTask.isTrue) {
       isPop.value = false;
-      if (selectedTask.contains(tasks)) {
-        selectedTask.remove(tasks);
+      if (selectedTask.contains(task)) {
+        selectedTask.remove(task);
       } else {
-        selectedTask.add(tasks);
+        selectedTask.add(task);
       }
 
       if (selectedTask.isEmpty) {
@@ -338,13 +338,13 @@ class TodoController extends GetxController {
     isPop.value = true;
   }
 
-  void doMultiSelectionTodo(Todos todos) {
+  void doMultiSelectionTodo(Todos todo) {
     if (isMultiSelectionTodo.isTrue) {
       isPop.value = false;
-      if (selectedTodo.contains(todos)) {
-        selectedTodo.remove(todos);
+      if (selectedTodo.contains(todo)) {
+        selectedTodo.remove(todo);
       } else {
-        selectedTodo.add(todos);
+        selectedTodo.add(todo);
       }
 
       if (selectedTodo.isEmpty) {
@@ -358,5 +358,41 @@ class TodoController extends GetxController {
     selectedTodo.clear();
     isMultiSelectionTodo.value = false;
     isPop.value = true;
+  }
+
+  // Completed and created todos methods
+  int createdAllTodos() {
+    return todos.where((todo) => todo.task.value?.archive == false).length;
+  }
+
+  int completedAllTodos() {
+    return todos
+        .where((todo) => todo.task.value?.archive == false && todo.done == true)
+        .length;
+  }
+
+  // Created and completed todos for a specific task
+  int createdAllTodosTask(Tasks task) {
+    return todos.where((todo) => todo.task.value?.id == task.id).length;
+  }
+
+  int completedAllTodosTask(Tasks task) {
+    return todos
+        .where((todo) => todo.task.value?.id == task.id && todo.done == true)
+        .length;
+  }
+
+  // Count total todos for a specific date in the calendar
+  int countTotalTodosCalendar(DateTime date) {
+    return todos
+        .where((todo) =>
+            todo.done == false &&
+            todo.todoCompletedTime != null &&
+            todo.task.value?.archive == false &&
+            DateTime(date.year, date.month, date.day, 0, 0)
+                .isBefore(todo.todoCompletedTime!) &&
+            DateTime(date.year, date.month, date.day, 23, 59)
+                .isAfter(todo.todoCompletedTime!))
+        .length;
   }
 }

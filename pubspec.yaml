@@ -46,6 +46,7 @@ dependencies:
   isar_flutter_libs:
     version: ^3.1.8
     hosted: https://pub.isar-community.dev/
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:

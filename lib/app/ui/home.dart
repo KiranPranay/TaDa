@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todark/app/ui/tasks/widgets/tasks_action.dart';
 import 'package:todark/app/ui/todos/view/calendar_todos.dart';
-import 'package:todark/app/ui/todos/view/all_todos.dart';
+import 'package:todark/app/ui/todos/view/all_todos.dart'; // Import your Todos class here
 import 'package:todark/app/ui/todos/widgets/todos_action.dart';
 import 'package:todark/theme/theme_controller.dart';
 
@@ -20,11 +20,11 @@ class _HomePageState extends State<HomePage> {
   final themeController = Get.put(ThemeController());
   int tabIndex = 0;
 
-  final pages = const [
-    AllTasks(),
-    AllTodos(),
-    CalendarTodos(),
-    SettingsPage(),
+  final pages = [
+    const AllTasks(),
+    const AllTodos(), // Make sure `AllTodos` is defined correctly in all_todos.dart
+    const CalendarTodos(),
+    const SettingsPage(),
   ];
 
   void changeTabIndex(int index) {
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   void onSwipe(DragEndDetails details) {
     if (details.primaryVelocity! < 0) {
-      if (tabIndex < 3) {
+      if (tabIndex < pages.length - 1) {
         changeTabIndex(tabIndex + 1);
       }
     } else if (details.primaryVelocity! > 0) {
