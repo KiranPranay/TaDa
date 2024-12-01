@@ -31,6 +31,11 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        intent.putExtra("fromWidget", true)
+    }
+
     private fun updateWidget(title: String, completed: String, progress: String) {
         val context: Context = applicationContext
         val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {

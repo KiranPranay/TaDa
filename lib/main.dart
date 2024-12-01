@@ -62,7 +62,7 @@ void main() async {
   if (Platform.isAndroid || Platform.isIOS) {
     timeZoneName = await FlutterTimezone.getLocalTimezone();
   } else {
-    timeZoneName = '${DateTimeZone.local}';
+    timeZoneName = '\${DateTimeZone.local}';
   }
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
@@ -77,7 +77,14 @@ void main() async {
     linux: initializationSettingsLinux,
     iOS: initializationSettingsIos,
   );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
+    if (notificationResponse.payload != null) {
+      // Ensure the app always opens the main screen
+      Get.offAll(() => const HomePage());
+    }
+  });
   await IsarController().openDB();
   await initSettings();
 
@@ -114,7 +121,7 @@ Future<void> setOptimalDisplayMode() async {
 Future<void> initSettings() async {
   settings = isar.settings.where().findFirstSync() ?? Settings();
   if (settings.language == null) {
-    settings.language = '${Get.deviceLocale}';
+    settings.language = '\${Get.deviceLocale}';
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
@@ -267,7 +274,8 @@ class _MyAppState extends State<MyApp> {
             supportedLocales:
                 appLanguages.map((e) => e['locale'] as Locale).toList(),
             debugShowCheckedModeBanner: false,
-            home: settings.onboard ? const HomePage() : const OnBording(),
+            home:
+                const HomePage(), // Ensure the main screen is always the entry point
             builder: EasyLoading.init(),
             title: 'ToDark',
           );
