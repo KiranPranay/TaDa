@@ -398,19 +398,15 @@ class _TodosActionState extends State<TodosAction> {
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           transitionDuration: const Duration(milliseconds: 200),
         );
-        if (dateTime != null) {
-          String formattedDate = timeformat == '12'
-              ? DateFormat.yMMMEd(locale.languageCode).add_jm().format(dateTime)
-              : DateFormat.yMMMEd(locale.languageCode)
-                  .add_Hm()
-                  .format(dateTime);
+        String formattedDate = timeformat == '12'
+            ? DateFormat.yMMMEd(locale.languageCode).add_jm().format(dateTime!)
+            : DateFormat.yMMMEd(locale.languageCode).add_Hm().format(dateTime!);
 
-          timeTodoEdit.text = formattedDate;
+        timeTodoEdit.text = formattedDate;
 
-          setState(() {
-            if (widget.edit) controller.time.value = formattedDate;
-          });
-        }
+        setState(() {
+          if (widget.edit) controller.time.value = formattedDate;
+        });
       },
     );
 
