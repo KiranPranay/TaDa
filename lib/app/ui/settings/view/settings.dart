@@ -242,47 +242,57 @@ class _SettingsPageState extends State<SettingsPage> {
                                     setState(() {});
                                   },
                                 ),
-                                SettingCard(
-                                  elevation: 4,
-                                  icon: const Icon(
-                                      IconsaxPlusLinear.calendar_edit),
-                                  text: 'firstDayOfWeek'.tr,
-                                  dropdown: true,
-                                  dropdownName: settings.firstDay.tr,
-                                  dropdownList: <String>[
-                                    'monday'.tr,
-                                    'tuesday'.tr,
-                                    'wednesday'.tr,
-                                    'thursday'.tr,
-                                    'friday'.tr,
-                                    'saturday'.tr,
-                                    'sunday'.tr,
-                                  ],
-                                  dropdownCange: (String? newValue) {
-                                    isar.writeTxnSync(() {
-                                      if (newValue == 'monday'.tr) {
-                                        settings.firstDay = 'monday';
-                                      } else if (newValue == 'tuesday'.tr) {
-                                        settings.firstDay = 'tuesday';
-                                      } else if (newValue == 'wednesday'.tr) {
-                                        settings.firstDay = 'wednesday';
-                                      } else if (newValue == 'thursday'.tr) {
-                                        settings.firstDay = 'thursday';
-                                      } else if (newValue == 'friday'.tr) {
-                                        settings.firstDay = 'friday';
-                                      } else if (newValue == 'saturday'.tr) {
-                                        settings.firstDay = 'saturday';
-                                      } else if (newValue == 'sunday'.tr) {
-                                        settings.firstDay = 'sunday';
-                                      }
-                                      isar.settings.putSync(settings);
-                                    });
-                                    MyApp.updateAppState(context,
-                                        newTimeformat:
-                                            firstDayOfWeek(newValue));
-                                    setState(() {});
-                                  },
-                                ),
+                                // SettingCard(
+                                //   elevation: 4,
+                                //   icon: const Icon(
+                                //       IconsaxPlusLinear.calendar_edit),
+                                //   text: 'firstDayOfWeek'.tr,
+                                //   dropdown: true,
+                                //   dropdownName: settings
+                                //       .firstDay, // Use the internal, untranslated value
+                                //   dropdownList: const <String>[
+                                //     'monday',
+                                //     'tuesday',
+                                //     'wednesday',
+                                //     'thursday',
+                                //     'friday',
+                                //     'saturday',
+                                //     'sunday',
+                                //   ].map((day) => day.tr).toList(),
+                                //   dropdownCange: (String? newValue) {
+                                //     // Convert the translated value back to its original key
+                                //     String internalValue;
+                                //     if (newValue == 'monday'.tr) {
+                                //       internalValue = 'monday';
+                                //     } else if (newValue == 'tuesday'.tr) {
+                                //       internalValue = 'tuesday';
+                                //     } else if (newValue == 'wednesday'.tr) {
+                                //       internalValue = 'wednesday';
+                                //     } else if (newValue == 'thursday'.tr) {
+                                //       internalValue = 'thursday';
+                                //     } else if (newValue == 'friday'.tr) {
+                                //       internalValue = 'friday';
+                                //     } else if (newValue == 'saturday'.tr) {
+                                //       internalValue = 'saturday';
+                                //     } else if (newValue == 'sunday'.tr) {
+                                //       internalValue = 'sunday';
+                                //     } else {
+                                //       internalValue =
+                                //           'monday'; // Default fallback, just in case
+                                //     }
+
+                                //     // Save the value without translation
+                                //     isar.writeTxnSync(() {
+                                //       settings.firstDay = internalValue;
+                                //       isar.settings.putSync(settings);
+                                //     });
+
+                                //     // Update the UI state and app
+                                //     MyApp.updateAppState(context,
+                                //         newTimeformat: internalValue);
+                                //     setState(() {});
+                                //   },
+                                // ),
                                 SettingCard(
                                   elevation: 4,
                                   icon:
