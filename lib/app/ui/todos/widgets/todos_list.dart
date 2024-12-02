@@ -1,10 +1,10 @@
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/controller/todo_controller.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/app/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todark/app/ui/todos/widgets/todo_card.dart';
-import 'package:todark/app/ui/todos/widgets/todos_action.dart';
-import 'package:todark/app/ui/widgets/list_empty.dart';
+import 'package:tada/app/ui/todos/widgets/todo_card.dart';
+import 'package:tada/app/ui/todos/widgets/todos_action.dart';
+import 'package:tada/app/ui/widgets/list_empty.dart';
 
 class TodosList extends StatefulWidget {
   const TodosList({

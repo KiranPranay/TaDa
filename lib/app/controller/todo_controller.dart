@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/utils/notification.dart';
-import 'package:todark/app/utils/widget_updater.dart';
-import 'package:todark/main.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/app/utils/notification.dart';
+import 'package:tada/app/utils/widget_updater.dart';
+import 'package:tada/main.dart';
 
 class TodoController extends GetxController {
   final tasks = <Tasks>[].obs;

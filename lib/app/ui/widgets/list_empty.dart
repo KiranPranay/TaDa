@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todark/main.dart';
+import 'package:tada/main.dart';
 
 class ListEmpty extends StatelessWidget {
   const ListEmpty({

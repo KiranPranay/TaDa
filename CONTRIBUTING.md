@@ -16,7 +16,7 @@ This project and everyone participating in it are governed by our [Code of Condu
 
 ## Translation addition steps:
 
-1. Create a localization file in the ToDark/lib/translation folder.
+1. Create a localization file in the tada/lib/translation folder.
 2. Fill it out following the example of the en_us.dart file.
 3. Add a new import statement for your localization and include it in the list of supported localizations in the translation.dart file.
    

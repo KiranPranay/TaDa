@@ -4,10 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/utils/notification.dart';
-import 'package:todark/main.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/app/controller/todo_controller.dart';
+import 'package:tada/app/utils/notification.dart';
+import 'package:tada/main.dart';
 
 class TodoCard extends StatefulWidget {
   const TodoCard({

@@ -1,13 +1,13 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/ui/tasks/view/all_tasks.dart';
-import 'package:todark/app/ui/settings/view/settings.dart';
+import 'package:tada/app/ui/tasks/view/all_tasks.dart';
+import 'package:tada/app/ui/settings/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todark/app/ui/tasks/widgets/tasks_action.dart';
-import 'package:todark/app/ui/todos/view/calendar_todos.dart';
-import 'package:todark/app/ui/todos/view/all_todos.dart'; // Import your Todos class here
-import 'package:todark/app/ui/todos/widgets/todos_action.dart';
-import 'package:todark/theme/theme_controller.dart';
+import 'package:tada/app/ui/tasks/widgets/tasks_action.dart';
+import 'package:tada/app/ui/todos/view/calendar_todos.dart';
+import 'package:tada/app/ui/todos/view/all_todos.dart'; // Import your Todos class here
+import 'package:tada/app/ui/todos/widgets/todos_action.dart';
+import 'package:tada/theme/theme_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

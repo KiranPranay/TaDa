@@ -1,18 +1,18 @@
 import 'package:get/get.dart';
-import 'package:todark/translation/ar_ar.dart';
-import 'package:todark/translation/de_de.dart';
-import 'package:todark/translation/en_us.dart';
-import 'package:todark/translation/es_es.dart';
-import 'package:todark/translation/fa_ir.dart';
-import 'package:todark/translation/fr_fr.dart';
-import 'package:todark/translation/it_it.dart';
-import 'package:todark/translation/ko_kr.dart';
-import 'package:todark/translation/ru_ru.dart';
-import 'package:todark/translation/zh_cn.dart';
-import 'package:todark/translation/zh_tw.dart';
-import 'package:todark/translation/tr_tr.dart';
-import 'package:todark/translation/vi_vn.dart';
-import 'package:todark/translation/pt_pt.dart';
+import 'package:tada/translation/ar_ar.dart';
+import 'package:tada/translation/de_de.dart';
+import 'package:tada/translation/en_us.dart';
+import 'package:tada/translation/es_es.dart';
+import 'package:tada/translation/fa_ir.dart';
+import 'package:tada/translation/fr_fr.dart';
+import 'package:tada/translation/it_it.dart';
+import 'package:tada/translation/ko_kr.dart';
+import 'package:tada/translation/ru_ru.dart';
+import 'package:tada/translation/zh_cn.dart';
+import 'package:tada/translation/zh_tw.dart';
+import 'package:tada/translation/tr_tr.dart';
+import 'package:tada/translation/vi_vn.dart';
+import 'package:tada/translation/pt_pt.dart';
 
 class Translation extends Translations {
   @override

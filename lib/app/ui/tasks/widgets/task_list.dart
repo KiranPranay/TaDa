@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/ui/tasks/widgets/task_card.dart';
-import 'package:todark/app/ui/todos/view/task_todos.dart';
-import 'package:todark/app/ui/widgets/list_empty.dart';
+import 'package:tada/app/controller/todo_controller.dart';
+import 'package:tada/app/ui/tasks/widgets/task_card.dart';
+import 'package:tada/app/ui/todos/view/task_todos.dart';
+import 'package:tada/app/ui/widgets/list_empty.dart';
 
 class TasksList extends StatefulWidget {
   const TasksList({

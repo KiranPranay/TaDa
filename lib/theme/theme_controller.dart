@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/main.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/main.dart';
 
 class ThemeController extends GetxController {
   ThemeMode get theme => settings.theme == 'system'

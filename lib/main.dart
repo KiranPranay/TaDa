@@ -4,18 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:time_machine/time_machine.dart';
-import 'package:todark/app/controller/isar_contoller.dart';
-import 'package:todark/app/ui/home.dart';
-import 'package:todark/app/ui/onboarding.dart';
-import 'package:todark/theme/theme.dart';
+import 'package:tada/app/controller/isar_contoller.dart';
+import 'package:tada/app/ui/home.dart';
+import 'package:tada/app/ui/onboarding.dart';
+import 'package:tada/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/theme/theme_controller.dart';
-import 'package:todark/app/utils/device_info.dart';
+import 'package:tada/theme/theme_controller.dart';
+import 'package:tada/app/utils/device_info.dart';
 import 'app/controller/todo_controller.dart';
 import 'app/data/db.dart';
 import 'translation/translation.dart';
@@ -71,7 +71,7 @@ void main() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const LinuxInitializationSettings initializationSettingsLinux =
-      LinuxInitializationSettings(defaultActionName: 'ToDark');
+      LinuxInitializationSettings(defaultActionName: 'tada');
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     linux: initializationSettingsLinux,
@@ -277,7 +277,7 @@ class _MyAppState extends State<MyApp> {
             home:
                 const HomePage(), // Ensure the main screen is always the entry point
             builder: EasyLoading.init(),
-            title: 'ToDark',
+            title: 'tada',
           );
         },
       ),

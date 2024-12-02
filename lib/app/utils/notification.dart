@@ -1,4 +1,4 @@
-import 'package:todark/main.dart';
+import 'package:tada/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -12,7 +12,7 @@ class NotificationShow {
     await requestNotificationPermission();
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails(
-      'ToDark',
+      'tada',
       'DARK NIGHT',
       priority: Priority.high,
       importance: Importance.max,

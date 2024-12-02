@@ -4,12 +4,12 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/utils/show_dialog.dart';
-import 'package:todark/app/ui/widgets/button.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
-import 'package:todark/main.dart';
+import 'package:tada/app/controller/todo_controller.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/app/utils/show_dialog.dart';
+import 'package:tada/app/ui/widgets/button.dart';
+import 'package:tada/app/ui/widgets/text_form.dart';
+import 'package:tada/main.dart';
 
 class TodosTransfer extends StatefulWidget {
   const TodosTransfer({

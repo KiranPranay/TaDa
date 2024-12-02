@@ -3,7 +3,7 @@
 <h2>📝 TaDa</h2>
 </div>
 
-<p align='center'> Extended version of ToDark App (https://github.com/darkmoonight/ToDark) ✅ </p>
+<p align='center'> Extended version of tada App (https://github.com/darkmoonight/tada) ✅ </p>
 
 ### Key Features to Simplify Your Life
 
@@ -23,7 +23,7 @@
 
 ## Why Choose TaDa ?
 
-TaDa is designed to make your life easier. Whether you’re organizing your work, personal tasks, or goals, ToDark keeps everything in one place and helps you stay productive.
+TaDa is designed to make your life easier. Whether you’re organizing your work, personal tasks, or goals, tada keeps everything in one place and helps you stay productive.
 
 ### 📸 Screenshots
 

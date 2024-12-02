@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/controller/isar_contoller.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/ui/settings/widgets/settings_card.dart';
-import 'package:todark/main.dart';
-import 'package:todark/theme/theme_controller.dart';
+import 'package:tada/app/controller/todo_controller.dart';
+import 'package:tada/app/controller/isar_contoller.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/app/ui/settings/widgets/settings_card.dart';
+import 'package:tada/main.dart';
+import 'package:tada/theme/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {

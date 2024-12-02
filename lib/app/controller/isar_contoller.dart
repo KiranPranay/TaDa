@@ -7,8 +7,8 @@ import 'package:path/path.dart' as p;
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:restart_app/restart_app.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/main.dart';
+import 'package:tada/app/data/db.dart';
+import 'package:tada/main.dart';
 
 class IsarController {
   var now = DateTime.now();
@@ -41,7 +41,7 @@ class IsarController {
 
     try {
       final timeStamp = DateFormat('yyyyMMdd_HHmmss').format(now);
-      final backupFileName = 'backup_todark_db$timeStamp.isar';
+      final backupFileName = 'backup_tada_db$timeStamp.isar';
       final backUpFile = File('$backUpDir/$backupFileName');
 
       if (await backUpFile.exists()) {
