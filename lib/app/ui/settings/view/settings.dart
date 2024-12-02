@@ -568,6 +568,12 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: () =>
                   urlLauncher('https://github.com/KiranPranay/TaDa'),
             ),
+            SettingCard(
+              icon: const Icon(LineAwesomeIcons.book_open_solid),
+              text: 'Privacy Policy',
+              onPressed: () => urlLauncher(
+                  'https://weber.cottonseeds.org/privacypolicies/tada'),
+            ),
           ],
         ),
       ),
