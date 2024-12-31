@@ -60,26 +60,39 @@ class _TodoCardState extends State<TodoCard> {
                           shape: const CircleBorder(),
                           onChanged: (val) {
                             innerState(() {
-                              widget.todo.done = val!;
+                              // Mark as done or not done
+                              widget.todo.done = val ?? false;
+
+                              // If done == true, set completion time to now, otherwise null.
                               widget.todo.todoCompletionTime =
-                                  val ? DateTime.now() : null;
+                                  widget.todo.done ? DateTime.now() : null;
                             });
-                            DateTime? date = widget.todo.todoCompletedTime;
-                            widget.todo.done
-                                ? flutterLocalNotificationsPlugin
-                                    .cancel(widget.todo.id)
-                                : (DateTime.now().isBefore(date!))
-                                    ? NotificationShow().showNotification(
-                                        widget.todo.id,
-                                        widget.todo.name,
-                                        widget.todo.description,
-                                        widget.todo.todoCompletedTime,
-                                      )
-                                    : null;
+
+                            final date = widget.todo.todoCompletedTime;
+
+                            if (widget.todo.done) {
+                              // Cancel any pending notifications if the Todo is done
+                              flutterLocalNotificationsPlugin
+                                  .cancel(widget.todo.id);
+                            } else {
+                              // If the Todo is not done, schedule the notification only if
+                              // there's a valid future date
+                              if (date != null &&
+                                  DateTime.now().isBefore(date)) {
+                                NotificationShow().showNotification(
+                                  widget.todo.id,
+                                  widget.todo.name,
+                                  widget.todo.description,
+                                  date,
+                                );
+                              }
+                            }
+
+                            // Update the database (with a slight delay for animation, as you had)
                             Future.delayed(
-                                const Duration(milliseconds: 300),
-                                () => todoController
-                                    .updateTodoCheck(widget.todo));
+                              const Duration(milliseconds: 300),
+                              () => todoController.updateTodoCheck(widget.todo),
+                            );
                           },
                         ),
                         Expanded(
